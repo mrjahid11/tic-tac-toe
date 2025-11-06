@@ -128,12 +128,12 @@ class TicTacToeApp:
         bottom_frame.grid(row=3, column=0)
 
         # Styled action buttons
-        restart_btn = tk.Button(bottom_frame, text="↻ Restart", font=("Arial", 11, "bold"), 
+        rematch_btn = tk.Button(bottom_frame, text="↻ rematch", font=("Arial", 11, "bold"), 
                                bg=self.accent_primary, fg=self.text_light, relief='flat', bd=0,
-                               padx=20, pady=8, cursor='hand2', command=self.restart)
-        restart_btn.pack(side='left', padx=6)
-        restart_btn.bind("<Enter>", lambda e: restart_btn.configure(bg=self.accent_highlight))
-        restart_btn.bind("<Leave>", lambda e: restart_btn.configure(bg=self.accent_primary))
+                               padx=20, pady=8, cursor='hand2', command=self.rematch)
+        rematch_btn.pack(side='left', padx=6)
+        rematch_btn.bind("<Enter>", lambda e: rematch_btn.configure(bg=self.accent_highlight))
+        rematch_btn.bind("<Leave>", lambda e: rematch_btn.configure(bg=self.accent_primary))
 
         new_btn = tk.Button(bottom_frame, text="⟳ New Game", font=("Arial", 11, "bold"),
                            bg=self.accent_primary, fg=self.text_light, relief='flat', bd=0,
@@ -169,7 +169,7 @@ class TicTacToeApp:
             return
 
         if all(v is not None for v in self.board):
-            messagebox.showinfo("Draw", "It's a draw!")
+            messagebox.showinfo("Draw", "It's a !")
             return
 
         self.current = 'O' if self.current == 'X' else 'X'
@@ -207,7 +207,7 @@ class TicTacToeApp:
         for btn in self.buttons:
             btn.configure(state='disabled')
 
-    def restart(self):
+    def rematch(self):
         # Clear board but keep scores
         self.board = [None] * 9
         for btn in self.buttons:
@@ -222,18 +222,18 @@ class TicTacToeApp:
         # Reset both board and scores
         self.scores = {'X': 0, 'O': 0}
         self.update_scores()
-        self.restart()
+        self.rematch()
 
     # --- Mode / AI logic ---
     def _mode_changed(self):
-        # When changing mode, restart the board (keep scores)
-        self.restart()
+        # When changing mode, rematch the board (keep scores)
+        self.rematch()
 
     def _human_symbol_changed(self):
-        # update symbols and restart so correct player begins
+        # update symbols and rematch so correct player begins
         self.human_symbol = self.human_choice.get()
         self.ai_symbol = 'O' if self.human_symbol == 'X' else 'X'
-        self.restart()
+        self.rematch()
 
     def ai_move(self):
         # pick a move depending on difficulty
